@@ -1,0 +1,124 @@
+<%- include("./partials/header") %>
+<main class="flex flex-col items-center mb-10">
+    <% if (message) { %>
+        <div id="flashMessage" class="mt-4 mb-4 bg-pink-50 border border-pink-200 text-pink-800 rounded-xl px-4 py-3 text-center flex items-center gap-3 transition-opacity duration-700 opacity-0">
+            <span class="text-2xl">🐾</span>
+            <div class="text-sm font-medium"><%= message.message %></div>
+        </div>
+    <% } %>
+    <form action="/" method="get" class="w-full flex flex-col items-center">
+        <section class="mt-5 mb-5 w-full flex justify-center">
+            <div class="relative w-72 md:w-2xl lg:w-4xl">
+                <input id="search" type="text" name="search" value="<%= q %>"
+                        class="border-2 rounded-xl w-full pl-2 pr-8 pt-1 pb-1 text-sm active:border-blue-200" 
+                        placeholder="Zoeken voor dieren">
+                    <a href="/"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                        ✕
+                    </a>
+            </div>
+        </section>
+        <section class="flex justify-center items-center w-full">
+            <table class="border border-gray-300 rounded-xl shadow-lg bg-white w-full md:w-2xl lg:w-4xl">
+            <thead>
+                <tr class="text-gray-800 text-center bg-gray-100">
+                    <th class="px-4 py-3 cursor-pointer uppercase">
+                        <a href="?<%= q != "" ? `search=${q}&` : ''%>sortField=name&sortDirection=<%= sortDirection === 'asc' ? 'desc' : 'asc'%>">Naam
+                            <%= sortField === "name" ? (sortDirection === "asc" ? '▲' : '▼') : ""%>
+                        </a>
+                    </th>
+                    <th class="hidden sm:table-cell px-4 py-3 cursor-pointer uppercase">
+                        <a href="?<%= q != "" ? `search=${q}&` : ''%>sortField=birthdate&sortDirection=<%= sortDirection === 'asc' ? 'desc' : 'asc'%>">Geboortedatum
+                            <%= sortField === "birthdate" ? (sortDirection === "asc" ? '▲' : '▼') : ""%>
+                        </a>                            
+                    </th>
+                    <th class="hidden sm:table-cell px-4 py-3 cursor-pointer uppercase">
+                        <a href="?<%= q != "" ? `search=${q}&` : ''%>sortField=hobbies&sortDirection=<%= sortDirection === 'asc' ? 'desc' : 'asc'%>">Hobbies
+                            <%= sortField === "hobbies" ? (sortDirection === "asc" ? '▲' : '▼') : ""%>
+                        </a>
+                    </th>
+                    <th class="hidden sm:table-cell px-4 py-3 cursor-pointer uppercase">
+                        <a href="?<%= q != "" ? `search=${q}&` : ''%>sortField=age&sortDirection=<%= sortDirection === 'asc' ? 'desc' : 'asc'%>">Leeftijd
+                            <%= sortField === "age" ? (sortDirection === "asc" ? '▲' : '▼') : ""%>
+                        </a>
+                    </th>
+                    <th class="hidden sm:table-cell px-4 py-3 cursor-pointer uppercase">
+                        <a href="?<%= q != "" ? `search=${q}&` : ''%>sortField=active&sortDirection=<%= sortDirection === 'asc' ? 'desc' : 'asc'%>">Actief
+                            <%= sortField === "active" ? (sortDirection === "asc" ? '▲' : '▼') : ""%>
+                        </a>                            
+                    </th>
+                    <th class="px-4 py-3 uppercase">Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let animal of animals) { %>
+                <tr class="h-20 text-center border-b border-gray-200 hover:bg-gray-50 transition">
+                    <td class="flex items-center gap-3 px-4 py-2">
+                        <img src="<%=animal.imageUrl%>" alt="foto van <%=animal.species%> <%=animal.name%>" class="rounded-full w-10 h-10 border-2 border-gray-300">
+                        <div class="text-left">
+                            <div class="relative group">
+                                <h3 class="font-bold cursor-default"><%=animal.name%></h3>
+                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-3 text-xs text-white bg-gray-800 rounded-lg whitespace-normal w-48 opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-10">
+                                    <span class="block border-b border-gray-500 pb-2 mb-2 font-semibold"><%= animal.name %></span>
+                                    <span class="block text-gray-300 leading-relaxed"><%= animal.description %></span>
+                                </span>
+                            </div>
+                            <p class="text-gray-600 text-xs"><%=animal.species%></p>
+                        </div>
+                    </td>
+                    <td class="hidden sm:table-cell px-4 py-2">
+                        <p class="text-gray-600"><%=animal.birthDate%></p>
+                    </td>
+                    <td class="hidden sm:table-cell px-4 py-2">
+                        <div class="flex flex-col gap-2 items-center">
+                        <% for(let hobby of animal.hobbies) { %>
+                            <div class="bg-blue-100 rounded-xl px-3 py-1 border border-blue-200 text-blue-700 font-semibold text-xs w-fit">
+                                <%=hobby%>
+                            </div>
+                        <% } %>
+                        </div>
+                    </td>
+                    <td class="hidden sm:table-cell px-4 py-2">
+                        <p class="text-gray-600"><%=animal.age%></p>
+                    </td>
+                    <td class="hidden sm:table-cell px-4 py-2">
+                        <% if (animal.isActive) { %>
+                            <span class="rounded-full w-4 h-4 inline-block bg-green-500 border-2 border-green-700"></span>
+                        <% } else { %>
+                            <span class="rounded-full w-4 h-4 inline-block bg-red-500 border-2 border-red-700"></span>
+                        <%}%>
+                    </td>
+                    <td class="px-4 py-2">
+                        <a href="/animal/<%=animal.id%>" class="text-blue-600 hover:underline font-semibold">Zien</a>
+                    </td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </section>
+    </form>
+
+    <% if (user) { %>
+    <div class="mt-8 flex flex-col items-center gap-3">
+        <p class="font-medium">Ingelogd als: <%= user.username %></p>
+        <form action="/logout" method="POST">
+            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                Log uit
+            </button>
+        </form>
+    </div>
+    <% } %>
+</main>
+
+<script>
+    (function () {
+        const flash = document.getElementById('flashMessage');
+        if (!flash) return;
+        requestAnimationFrame(() => { setTimeout(() => flash.classList.remove('opacity-0'), 10); });
+        setTimeout(() => {
+            flash.classList.add('opacity-0');
+            flash.addEventListener('transitionend', () => flash.remove(), { once: true });
+        }, 3200);
+    })();
+</script>
+<%- include('./partials/footer') %>

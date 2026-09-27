@@ -1,0 +1,40 @@
+{
+  "name": "project_ElkeKeysers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon index.ts",
+    "coverage": "jest --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.19.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.17.14",
+    "@types/supertest": "^6.0.3",
+    "autoprefixer": "^10.4.27",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "postcss": "^8.5.8",
+    "supertest": "^7.2.2",
+    "tailwindcss": "^4.2.1",
+    "ts-jest": "^29.4.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.19.0",
+    "mongodb": "^7.2.0"
+  }
+}

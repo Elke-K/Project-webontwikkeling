@@ -1,0 +1,42 @@
+<%- include("./partials/header") %>
+
+    <main>
+        <section class="flex justify-center items-center w-full px-4 py-6">
+            <table class="border border-gray-300 rounded-xl shadow-lg bg-white w-full md:w-2xl lg:w-4xl">
+                <thead>
+                    <tr class="uppercase text-gray-800 text-center bg-gray-100">
+                        <th class="px-4 py-3 min-w-40">ID</th>
+                        <th class="hidden sm:table-cell px-4 py-3">Chip nummer</th>
+                        <th class="hidden sm:table-cell px-4 py-3">Laatste vaccinatie</th>
+                        <th class="hidden sm:table-cell px-4 py-3">Bloed type</th>
+                        <th class="hidden sm:table-cell px-4 py-3">Gesteriliseerd</th>
+                        <th class="px-4 py-3">Gezondheidsnotitie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let record of records) { %>
+                    <tr class="h-20 text-center border-b border-gray-200 hover:bg-gray-50 transition">
+                        <td class="px-4 py-2 font-bold min-w-40">
+                            <a href="/medicalrecord/<%= record.id %>" class="flex items-center gap-3">
+                                <img src="<%= record.imageUrl %>" alt="foto van record <%= record.id %>" class="rounded-full w-10 h-10 border-2 border-gray-300">
+                                <span><%= record.id %></span>
+                            </a>
+                        </td>                        
+                        <td class="hidden sm:table-cell px-4 py-2 text-gray-600"><%= !record.chipNumber.includes("NON-CHIPPED") && !record.chipNumber.includes("N/A") ? record.chipNumber : "Geen chip" %></td>
+                        <td class="hidden sm:table-cell px-4 py-2 text-gray-600"><%= record.lastVaccination %></td>
+                        <td class="hidden sm:table-cell px-4 py-2 text-gray-600"><%= record.bloodType != "Unknown" ? record.bloodType : "Niet bekend" %></td>
+                        <td class="hidden sm:table-cell px-4 py-2">
+                            <% if (record.isSterilized) { %>
+                                <span class="rounded-full w-4 h-4 inline-block bg-green-500 border-2 border-green-700"></span>
+                            <% } else { %>
+                                <span class="rounded-full w-4 h-4 inline-block bg-red-500 border-2 border-red-700"></span>
+                            <% } %>
+                        </td>
+                        <td class="px-4 py-2 text-gray-600"><%= record.healthNote %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </section>
+    </main>
+<%- include('./partials/footer') %>
